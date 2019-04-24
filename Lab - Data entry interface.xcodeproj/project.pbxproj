@@ -7,21 +7,43 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16758CB76929766BA32E813A /* libPods-Lab - Data entry interface.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 192DFF57858F466B15248B91 /* libPods-Lab - Data entry interface.a */; };
 		582D4579226F3BEA002F14CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D4578226F3BEA002F14CF /* AppDelegate.swift */; };
-		582D457B226F3BEA002F14CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D457A226F3BEA002F14CF /* ViewController.swift */; };
 		582D457E226F3BEA002F14CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 582D457C226F3BEA002F14CF /* Main.storyboard */; };
 		582D4580226F3BEE002F14CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 582D457F226F3BEE002F14CF /* Assets.xcassets */; };
 		582D4583226F3BEE002F14CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 582D4581226F3BEE002F14CF /* LaunchScreen.storyboard */; };
+		582D458B226F4307002F14CF /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D458A226F4307002F14CF /* Registration.swift */; };
+		582D458D226F4332002F14CF /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D458C226F4332002F14CF /* Person.swift */; };
+		582D458F226F4418002F14CF /* GuestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D458E226F4418002F14CF /* GuestsTableViewController.swift */; };
+		582D4591226F442F002F14CF /* AddRegistrationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D4590226F442F002F14CF /* AddRegistrationTableViewController.swift */; };
+		582D4593226F547E002F14CF /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D4592226F547E002F14CF /* UITextField+Extension.swift */; };
+		582D4595226F5A4E002F14CF /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D4594226F5A4E002F14CF /* Helper.swift */; };
+		582D459B226F70E9002F14CF /* IndexPath+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D459A226F70E9002F14CF /* IndexPath+Extension.swift */; };
+		582D459D227081BB002F14CF /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D459C227081BB002F14CF /* Room.swift */; };
+		582D459F227081F9002F14CF /* RoomsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D459E227081F9002F14CF /* RoomsTableViewController.swift */; };
+		582D45A1227095D5002F14CF /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D45A0227095D5002F14CF /* Array+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		192DFF57858F466B15248B91 /* libPods-Lab - Data entry interface.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Lab - Data entry interface.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		582D4575226F3BEA002F14CF /* Lab - Data entry interface.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lab - Data entry interface.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		582D4578226F3BEA002F14CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		582D457A226F3BEA002F14CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		582D457D226F3BEA002F14CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		582D457F226F3BEE002F14CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		582D4582226F3BEE002F14CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		582D4584226F3BEE002F14CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		582D458A226F4307002F14CF /* Registration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
+		582D458C226F4332002F14CF /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		582D458E226F4418002F14CF /* GuestsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestsTableViewController.swift; sourceTree = "<group>"; };
+		582D4590226F442F002F14CF /* AddRegistrationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRegistrationTableViewController.swift; sourceTree = "<group>"; };
+		582D4592226F547E002F14CF /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		582D4594226F5A4E002F14CF /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		582D459A226F70E9002F14CF /* IndexPath+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IndexPath+Extension.swift"; sourceTree = "<group>"; };
+		582D459C227081BB002F14CF /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		582D459E227081F9002F14CF /* RoomsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsTableViewController.swift; sourceTree = "<group>"; };
+		582D45A0227095D5002F14CF /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
+		95ECDC32C8438158577ABE06 /* Pods-Lab - Data entry interface.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lab - Data entry interface.debug.xcconfig"; path = "Target Support Files/Pods-Lab - Data entry interface/Pods-Lab - Data entry interface.debug.xcconfig"; sourceTree = "<group>"; };
+		BD4FC0E1B071FFAAF45F87BD /* Pods-Lab - Data entry interface.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lab - Data entry interface.release.xcconfig"; path = "Target Support Files/Pods-Lab - Data entry interface/Pods-Lab - Data entry interface.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +51,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16758CB76929766BA32E813A /* libPods-Lab - Data entry interface.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C0866CBB5025EF0F7F49CF4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				192DFF57858F466B15248B91 /* libPods-Lab - Data entry interface.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		582D456C226F3BEA002F14CF = {
 			isa = PBXGroup;
 			children = (
 				582D4577226F3BEA002F14CF /* Lab - Data entry interface */,
 				582D4576226F3BEA002F14CF /* Products */,
+				FC2A2F3335AAF959530177D0 /* Pods */,
+				2C0866CBB5025EF0F7F49CF4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,13 +88,63 @@
 			isa = PBXGroup;
 			children = (
 				582D4578226F3BEA002F14CF /* AppDelegate.swift */,
-				582D457A226F3BEA002F14CF /* ViewController.swift */,
+				582D4596226F6BA2002F14CF /* Controllers */,
+				582D4597226F6BB1002F14CF /* Resources */,
+				582D4584226F3BEE002F14CF /* Info.plist */,
+				582D4598226F6BC2002F14CF /* Models */,
+				582D4599226F6BD0002F14CF /* Extensions */,
+			);
+			path = "Lab - Data entry interface";
+			sourceTree = "<group>";
+		};
+		582D4596226F6BA2002F14CF /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				582D458E226F4418002F14CF /* GuestsTableViewController.swift */,
+				582D4590226F442F002F14CF /* AddRegistrationTableViewController.swift */,
+				582D459E227081F9002F14CF /* RoomsTableViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		582D4597226F6BB1002F14CF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				582D457C226F3BEA002F14CF /* Main.storyboard */,
 				582D457F226F3BEE002F14CF /* Assets.xcassets */,
 				582D4581226F3BEE002F14CF /* LaunchScreen.storyboard */,
-				582D4584226F3BEE002F14CF /* Info.plist */,
 			);
-			path = "Lab - Data entry interface";
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		582D4598226F6BC2002F14CF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				582D458A226F4307002F14CF /* Registration.swift */,
+				582D458C226F4332002F14CF /* Person.swift */,
+				582D459C227081BB002F14CF /* Room.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		582D4599226F6BD0002F14CF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				582D4592226F547E002F14CF /* UITextField+Extension.swift */,
+				582D4594226F5A4E002F14CF /* Helper.swift */,
+				582D459A226F70E9002F14CF /* IndexPath+Extension.swift */,
+				582D45A0227095D5002F14CF /* Array+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		FC2A2F3335AAF959530177D0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				95ECDC32C8438158577ABE06 /* Pods-Lab - Data entry interface.debug.xcconfig */,
+				BD4FC0E1B071FFAAF45F87BD /* Pods-Lab - Data entry interface.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,6 +154,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 582D4587226F3BEE002F14CF /* Build configuration list for PBXNativeTarget "Lab - Data entry interface" */;
 			buildPhases = (
+				4B3D57C7C933DAFFC9E74FC8 /* [CP] Check Pods Manifest.lock */,
 				582D4571226F3BEA002F14CF /* Sources */,
 				582D4572226F3BEA002F14CF /* Frameworks */,
 				582D4573226F3BEA002F14CF /* Resources */,
@@ -130,12 +214,46 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4B3D57C7C933DAFFC9E74FC8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Lab - Data entry interface-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		582D4571226F3BEA002F14CF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				582D457B226F3BEA002F14CF /* ViewController.swift in Sources */,
+				582D459F227081F9002F14CF /* RoomsTableViewController.swift in Sources */,
+				582D458F226F4418002F14CF /* GuestsTableViewController.swift in Sources */,
+				582D459B226F70E9002F14CF /* IndexPath+Extension.swift in Sources */,
+				582D45A1227095D5002F14CF /* Array+Extension.swift in Sources */,
+				582D4595226F5A4E002F14CF /* Helper.swift in Sources */,
+				582D4591226F442F002F14CF /* AddRegistrationTableViewController.swift in Sources */,
+				582D458B226F4307002F14CF /* Registration.swift in Sources */,
+				582D459D227081BB002F14CF /* Room.swift in Sources */,
+				582D4593226F547E002F14CF /* UITextField+Extension.swift in Sources */,
+				582D458D226F4332002F14CF /* Person.swift in Sources */,
 				582D4579226F3BEA002F14CF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -280,6 +398,7 @@
 		};
 		582D4588226F3BEE002F14CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 95ECDC32C8438158577ABE06 /* Pods-Lab - Data entry interface.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -298,6 +417,7 @@
 		};
 		582D4589226F3BEE002F14CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD4FC0E1B071FFAAF45F87BD /* Pods-Lab - Data entry interface.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

@@ -1,0 +1,6 @@
+module Pods_Lab___Data_entry_interface {
+  umbrella header "Pods-Lab - Data entry interface-umbrella.h"
+
+  export *
+  module * { export * }
+}

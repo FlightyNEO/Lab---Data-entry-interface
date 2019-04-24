@@ -1,0 +1,16 @@
+PODS:
+  - SwiftValidators (8.0.0)
+
+DEPENDENCIES:
+  - SwiftValidators
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - SwiftValidators
+
+SPEC CHECKSUMS:
+  SwiftValidators: 282173fae9e2fee864212b0128fcb25a81d53fba
+
+PODFILE CHECKSUM: aea74accb38d22e7a8394a91ab21020f8ce268b2
+
+COCOAPODS: 1.6.0

@@ -1,0 +1,6 @@
+module SwiftValidators {
+  umbrella header "SwiftValidators-umbrella.h"
+
+  export *
+  module * { export * }
+}
