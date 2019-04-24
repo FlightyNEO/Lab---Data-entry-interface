@@ -168,6 +168,8 @@ class AddRegistrationTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        hideKeyboardWhenTappedAround()
+        
         setupUI()
         
         if registration == nil {
