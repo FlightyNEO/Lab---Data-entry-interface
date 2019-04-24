@@ -30,6 +30,14 @@ class GuestsTableViewController: UITableViewController {
         }
     }
     
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.dateStyle = .short
+        
+        return formatter
+    }()
+    
     // MARK: ... Life cicle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +53,17 @@ class GuestsTableViewController: UITableViewController {
         controller.isEditable = isEditable
         controller.canEditing = canEditing
     }
+    
+    private func configureCell(_ cell: UITableViewCell, registration: Registration) {
+        
+        let fromDate = dateFormatter.string(from: registration.checkInDate)
+        let toDate = dateFormatter.string(from: registration.checkOutDate)
+        let dates = fromDate + " - " + toDate
+        
+        cell.textLabel?.text = registration.owner.fuulName
+        cell.detailTextLabel?.text = dates
+        
+    }
 
 }
 
@@ -59,7 +78,7 @@ extension GuestsTableViewController {
         let registration = registrations[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
-        cell.textLabel?.text = registration.owner.fuulName
+        configureCell(cell, registration: registration)
         
         return cell
     }
