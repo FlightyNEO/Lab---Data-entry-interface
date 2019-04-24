@@ -348,10 +348,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Room" id="WPb-Cv-kgK">
+                            <tableViewSection headerTitle="Room" footerTitle="Select room" id="WPb-Cv-kgK">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="RoomCell" textLabel="Fye-gT-yfU" detailTextLabel="Rxa-4a-JSM" style="IBUITableViewCellStyleValue1" id="dTv-wv-TyA">
-                                        <rect key="frame" x="0.0" y="970" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="977.5" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dTv-wv-TyA" id="i2F-OK-cUz">
                                             <rect key="frame" x="0.0" y="0.0" width="376" height="43.5"/>

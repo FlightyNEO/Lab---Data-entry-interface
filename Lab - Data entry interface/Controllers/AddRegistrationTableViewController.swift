@@ -185,13 +185,13 @@ class AddRegistrationTableViewController: UITableViewController {
         delegate?.didUpdateRegistration(registration)
     }
     
-    func setupDateViews() {
+    private func setupDateViews() {
         let midnightToday = Calendar.current.startOfDay(for: Date())
         checkInDatePicker.minimumDate = midnightToday
         checkInDatePicker.date = midnightToday
     }
     
-    func updateDateViews() {
+    private func updateDateViews() {
         checkOutDatePicker?.minimumDate = checkInDatePicker.date.addingTimeInterval(60 * 60 * 24)
         
         let formatter = DateFormatter()
@@ -201,24 +201,32 @@ class AddRegistrationTableViewController: UITableViewController {
         checkOutDateLabel?.text = formatter.string(from: checkOutDatePicker.date)
     }
     
-    func updateNumberOfGuests() {
+    private func updateNumberOfGuests() {
         numberOfAdultsLabel?.text = "\(Int(numberOfAdultsStepper.value))"
         numberOfChildrenLabel?.text = "\(Int(numberOfChildrenStepper.value))"
     }
     
-    func updateWiFiView(isOn: Bool) {
-        
-        func calculateWiFiPricae() -> Double {
-            let days = checkOutDatePicker.date.days(from: checkInDatePicker.date)
-            return 0.3 * Double(days)
-        }
+    private func updateWiFiView(isOn: Bool) {
         
         if isOn {
-            let price = calculateWiFiPricae()
+            let days = checkOutDatePicker.date.days(from: checkInDatePicker.date)
+            let price = calculateSum(0.3, days: days)
             wifiLabel.text = "Wi-Fi: \(price) $"
         } else {
             wifiLabel.text = "Wi-Fi"
         }
+    }
+    
+    private func updateRoomView() {
+        guard let room = registration.room else { return }
+        let days = checkOutDatePicker.date.days(from: checkInDatePicker.date)
+        let price = Double(room.price)
+        let sum = calculateSum(price, days: days)
+        roomCell.textLabel?.text = "Room type: \(sum) $"
+    }
+    
+    private func calculateSum(_ price: Double, days: Int) -> Double {
+        return price * Double(days)
     }
     
     private func setupUI() {
@@ -319,6 +327,7 @@ extension AddRegistrationTableViewController {
     @IBAction func datePickerValueChanged() {
         updateDateViews()
         updateWiFiView(isOn: wifiSwitch.isOn)
+        updateRoomView()
     }
     
     @IBAction func stepperValueChanged() {
@@ -431,6 +440,8 @@ extension AddRegistrationTableViewController: RoomsTableViewControllerDelegate {
         
         roomCell.detailTextLabel?.text = room.shortName
         roomCell.accessoryType = .checkmark
+        
+        updateRoomView()
         
         checkReadyToSave()
     }
