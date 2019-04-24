@@ -18,6 +18,14 @@ class RoomsTableViewController: UITableViewController {
     private var rooms = RoomType.all
     var selectedIndexPath: IndexPath?
     
+    private var currencyFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale(identifier: "ru_US")
+        
+        return formatter
+    }
+    
     // MARK: ... Properties
     weak var delegate: RoomsTableViewControllerDelegate?
     var idRoom: Int = -1 {
@@ -33,7 +41,7 @@ class RoomsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
+    
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rooms.count
@@ -44,7 +52,10 @@ class RoomsTableViewController: UITableViewController {
         let room = rooms[indexPath.row]
         
         cell.textLabel?.text = rooms[indexPath.row].name
-        cell.detailTextLabel?.text = String(rooms[indexPath.row].price)
+        
+        cell.detailTextLabel?.text = currencyFormatter.string(from: rooms[indexPath.row].price as NSNumber)
+        
+        //cell.detailTextLabel?.text = String(rooms[indexPath.row].price)
         
         cell.accessoryType = room.id == idRoom ? .checkmark : .none
         

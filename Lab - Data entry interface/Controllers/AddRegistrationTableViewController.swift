@@ -71,32 +71,25 @@ class AddRegistrationTableViewController: UITableViewController {
         }
     }
     
-    private var textFields: [UITextField] {
-        guard
-            firstNameTextField != nil,
-            lastNameTextField != nil,
-            eMailTextField != nil else { return [] }
-        
-        return [firstNameTextField, lastNameTextField, eMailTextField]
-    }
-    
-    private var areFieldsReady: Bool {
-        
-        guard !textFields.isEmpty else { return false }
-        
-        for textField in textFields {
-            if textField.isEmpty { return false }
-        }
-        
-        guard
-            Validator.isEmail().apply(eMailTextField.text),
-            registration.room != nil else { return false }
-        
-        return true
-    }
-    
     private lazy var cancelButton: UIBarButtonItem? = {
         return UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(actionCancel))
+    }()
+    
+    private lazy var currencyFormatter: NumberFormatter = {
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale(identifier: "ru_US")
+        
+        return formatter
+    }()
+    
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.dateStyle = .medium
+        
+        return formatter
     }()
     
     private let checkInDatePickerCellIndexPath = IndexPath(row: 1, section: 1)
@@ -114,10 +107,40 @@ class AddRegistrationTableViewController: UITableViewController {
         }
     }
     
+    // MARK: ... Calculated properties
+    /// Return all text fields
+    private var textFields: [UITextField] {
+        guard
+            firstNameTextField != nil,
+            lastNameTextField != nil,
+            eMailTextField != nil else { return [] }
+        
+        return [firstNameTextField, lastNameTextField, eMailTextField]
+    }
+    
+    /// Return true if all fields is correct filling
+    private var areFieldsReady: Bool {
+        
+        guard !textFields.isEmpty else { return false }
+        
+        for textField in textFields {
+            if textField.isEmpty { return false }
+        }
+        
+        guard
+            Validator.isEmail().apply(eMailTextField.text),
+            registration.room != nil else { return false }
+        
+        return true
+    }
+    
+    
+    /// Return number of places for adults
     private var numberOfAdults: Int {
         return Int(numberOfAdultsStepper.value)
     }
     
+    /// Return number of places for children
     private var numberOfChildren: Int {
         return Int(numberOfChildrenStepper.value)
     }
@@ -168,6 +191,8 @@ class AddRegistrationTableViewController: UITableViewController {
         checkReadyToSave()
     }
     
+    
+    /// Validation of the entered data
     private func checkReadyToSave() {
         saveAndCancelButton?.isEnabled = areFieldsReady
         mode = .edit(readyToSave: areFieldsReady)
@@ -201,12 +226,8 @@ class AddRegistrationTableViewController: UITableViewController {
     
     private func updateDateViews() {
         checkOutDatePicker?.minimumDate = checkInDatePicker.date.addingTimeInterval(60 * 60 * 24)
-        
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.dateStyle = .medium
-        checkInDateLabel?.text = formatter.string(from: checkInDatePicker.date)
-        checkOutDateLabel?.text = formatter.string(from: checkOutDatePicker.date)
+        checkInDateLabel?.text = dateFormatter.string(from: checkInDatePicker.date)
+        checkOutDateLabel?.text = dateFormatter.string(from: checkOutDatePicker.date)
     }
     
     private func updateNumberOfGuests() {
@@ -219,8 +240,8 @@ class AddRegistrationTableViewController: UITableViewController {
         if isOn {
             let days = checkOutDatePicker.date.days(from: checkInDatePicker.date)
             let sum = calculateSum(0.3, days: days)
-            let sumString = String(format:"%.2f", sum)
-            wifiLabel?.text = "Wi-Fi: \(sumString) $"
+            guard let sumString = currencyFormatter.string(from: sum as NSNumber) else { return }
+            wifiLabel?.text = "Wi-Fi: \(sumString)"
         } else {
             wifiLabel?.text = "Wi-Fi"
         }
@@ -232,8 +253,8 @@ class AddRegistrationTableViewController: UITableViewController {
             let days = checkOutDatePicker?.date.days(from: checkInDatePicker.date) else { return }
         let price = Double(room.price)
         let sum = calculateSum(price, days: days)
-        let sumString = String(format:"%.2f", sum)
-        roomCell?.textLabel?.text = "Room type: \(sumString) $"
+        guard let sumString = currencyFormatter.string(from: sum as NSNumber) else { return }
+        roomCell?.textLabel?.text = "Room type: \(sumString)"
     }
     
     private func calculateSum(_ price: Double, days: Int) -> Double {
@@ -259,31 +280,6 @@ class AddRegistrationTableViewController: UITableViewController {
         clearsSelectionOnViewWillAppear = true
         
         setupDateViews()
-        
-//        if let registration = registration {
-//
-//            /* Filling info */
-//            firstNameTextField.text = registration.owner.firstName
-//            lastNameTextField.text = registration.owner.lastName
-//            eMailTextField.text = registration.owner.eMail
-//
-//            /* Filling dates */
-//            checkInDatePicker.date = registration.checkInDate
-//            checkOutDatePicker.date = registration.checkOutDate
-//
-//            /* Filling guests count */
-//            numberOfAdultsStepper.value = Double(registration.numberOfAdults)
-//            numberOfChildrenStepper.value = Double(registration.numberOfChildren)
-//
-//            /* Filling wifi */
-//            wifiSwitch.isOn = registration.wifiEnable
-//
-//            /* Filling room */
-//            roomCell.detailTextLabel?.text = registration.room?.shortName
-//            roomCell.accessoryType = .checkmark
-//
-//        }
-        
         updateUI()
     }
     

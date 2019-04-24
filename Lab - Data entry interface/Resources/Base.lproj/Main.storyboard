@@ -50,7 +50,7 @@
             </objects>
             <point key="canvasLocation" x="250.72463768115944" y="135.9375"/>
         </scene>
-        <!--Add guest-->
+        <!--Registration-->
         <scene sceneID="1uA-Lb-NB2">
             <objects>
                 <tableViewController id="I0w-Vq-0FZ" customClass="AddRegistrationTableViewController" customModule="Lab___Data_entry_interface" customModuleProvider="target" sceneMemberID="viewController">
@@ -385,7 +385,7 @@
                             <outlet property="delegate" destination="I0w-Vq-0FZ" id="TcF-Se-uIU"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Add guest" largeTitleDisplayMode="never" id="W6F-wD-oWD">
+                    <navigationItem key="navigationItem" title="Registration" largeTitleDisplayMode="never" id="W6F-wD-oWD">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="u5i-0U-iBr">
                             <connections>
                                 <segue destination="X4F-zA-pg4" kind="unwind" identifier="CancelSegue" unwindAction="unwindWithSegue:" id="xqw-9o-QKe"/>
