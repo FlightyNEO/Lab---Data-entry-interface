@@ -133,6 +133,14 @@ class AddRegistrationTableViewController: UITableViewController {
         }
     }
     
+    var canEditing = true {
+        didSet {
+            if !canEditing {
+                navigationItem.rightBarButtonItems?.removeAll()
+            }
+        }
+    }
+    
     // MARK: ... Life cicle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -210,19 +218,22 @@ class AddRegistrationTableViewController: UITableViewController {
         
         if isOn {
             let days = checkOutDatePicker.date.days(from: checkInDatePicker.date)
-            let price = calculateSum(0.3, days: days)
-            wifiLabel.text = "Wi-Fi: \(price) $"
+            let sum = calculateSum(0.3, days: days)
+            let sumString = String(format:"%.2f", sum)
+            wifiLabel?.text = "Wi-Fi: \(sumString) $"
         } else {
-            wifiLabel.text = "Wi-Fi"
+            wifiLabel?.text = "Wi-Fi"
         }
     }
     
     private func updateRoomView() {
-        guard let room = registration.room else { return }
-        let days = checkOutDatePicker.date.days(from: checkInDatePicker.date)
+        guard
+            let room = registration?.room,
+            let days = checkOutDatePicker?.date.days(from: checkInDatePicker.date) else { return }
         let price = Double(room.price)
         let sum = calculateSum(price, days: days)
-        roomCell.textLabel?.text = "Room type: \(sum) $"
+        let sumString = String(format:"%.2f", sum)
+        roomCell?.textLabel?.text = "Room type: \(sumString) $"
     }
     
     private func calculateSum(_ price: Double, days: Int) -> Double {
@@ -232,9 +243,13 @@ class AddRegistrationTableViewController: UITableViewController {
     private func setupUI() {
         
         // Set possibility of editing
-        navigationItem.rightBarButtonItems?.removeAll { $0 == (isEditable ? editButton : saveAndCancelButton) }
+        if canEditing {
+            navigationItem.rightBarButtonItems?.removeAll { $0 == (isEditable ? editButton : saveAndCancelButton) }
+        } else {
+            navigationItem.rightBarButtonItems?.removeAll()
+        }
         
-        if isEditable {
+        if isEditable && canEditing {
             editButton = nil
         } else {
             cancelAndBackButton = nil
@@ -245,29 +260,29 @@ class AddRegistrationTableViewController: UITableViewController {
         
         setupDateViews()
         
-        if let registration = registration {
-            
-            /* Filling info */
-            firstNameTextField.text = registration.owner.firstName
-            lastNameTextField.text = registration.owner.lastName
-            eMailTextField.text = registration.owner.eMail
-            
-            /* Filling dates */
-            checkInDatePicker.date = registration.checkInDate
-            checkOutDatePicker.date = registration.checkOutDate
-            
-            /* Filling guests count */
-            numberOfAdultsStepper.value = Double(registration.numberOfAdults)
-            numberOfChildrenStepper.value = Double(registration.numberOfChildren)
-            
-            /* Filling wifi */
-            wifiSwitch.isOn = registration.wifiEnable
-            
-            /* Filling room */
-            roomCell.detailTextLabel?.text = registration.room?.shortName
-            roomCell.accessoryType = .checkmark
-            
-        }
+//        if let registration = registration {
+//
+//            /* Filling info */
+//            firstNameTextField.text = registration.owner.firstName
+//            lastNameTextField.text = registration.owner.lastName
+//            eMailTextField.text = registration.owner.eMail
+//
+//            /* Filling dates */
+//            checkInDatePicker.date = registration.checkInDate
+//            checkOutDatePicker.date = registration.checkOutDate
+//
+//            /* Filling guests count */
+//            numberOfAdultsStepper.value = Double(registration.numberOfAdults)
+//            numberOfChildrenStepper.value = Double(registration.numberOfChildren)
+//
+//            /* Filling wifi */
+//            wifiSwitch.isOn = registration.wifiEnable
+//
+//            /* Filling room */
+//            roomCell.detailTextLabel?.text = registration.room?.shortName
+//            roomCell.accessoryType = .checkmark
+//
+//        }
         
         updateUI()
     }
@@ -276,8 +291,34 @@ class AddRegistrationTableViewController: UITableViewController {
         
         navigationItem.leftBarButtonItem = isEditable ? (cancelAndBackButton ?? cancelButton) : nil
         
+        if let registration = registration {
+            
+            /* Filling info */
+            firstNameTextField?.text = registration.owner.firstName
+            lastNameTextField?.text = registration.owner.lastName
+            eMailTextField?.text = registration.owner.eMail
+            
+            /* Filling dates */
+            checkInDatePicker?.date = registration.checkInDate
+            checkOutDatePicker?.date = registration.checkOutDate
+            
+            /* Filling guests count */
+            numberOfAdultsStepper?.value = Double(registration.numberOfAdults)
+            numberOfChildrenStepper?.value = Double(registration.numberOfChildren)
+            
+            /* Filling wifi */
+            wifiSwitch?.isOn = registration.wifiEnable
+            
+            /* Filling room */
+            roomCell?.detailTextLabel?.text = registration.room?.shortName
+            roomCell?.accessoryType = .checkmark
+            
+        }
+        
         updateDateViews()
         updateNumberOfGuests()
+        updateWiFiView(isOn: wifiSwitch?.isOn ?? false)
+        updateRoomView()
         
         // Update possibility of editing
         saveAndCancelButton?.isEnabled = areFieldsReady

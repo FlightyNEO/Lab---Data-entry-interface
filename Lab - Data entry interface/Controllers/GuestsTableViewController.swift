@@ -39,10 +39,11 @@ class GuestsTableViewController: UITableViewController {
     }
     
     // MARK: ... Private methods
-    private func fillDetailController(_ controller: AddRegistrationTableViewController, registration: Registration?, title: String?, isEditable: Bool) {
+    private func fillDetailController(_ controller: AddRegistrationTableViewController, registration: Registration?, title: String?, isEditable: Bool, canEditing: Bool) {
         controller.registration = registration
         controller.title = title
         controller.isEditable = isEditable
+        controller.canEditing = canEditing
     }
 
 }
@@ -83,6 +84,10 @@ extension GuestsTableViewController {
         return [deleteAction, editAction]
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return registrations[indexPath.row].checkInDate.timeIntervalSince1970 > Date().timeIntervalSince1970
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.editingIndexPath = indexPath
     }
@@ -102,15 +107,17 @@ extension GuestsTableViewController {
             case Mode.edit.identifier:
                 guard let row = sender as? Int else { return }
                 let emoji = registrations[row]
-                fillDetailController(addRegistrationDetailViewController, registration: emoji, title: "Edit", isEditable: true)
+                fillDetailController(addRegistrationDetailViewController, registration: emoji, title: "Edit", isEditable: true, canEditing: true)
                 mode = .edit
             case Mode.add.identifier:
-                fillDetailController(addRegistrationDetailViewController, registration: nil, title: "Registration", isEditable: true)
+                fillDetailController(addRegistrationDetailViewController, registration: nil, title: "Registration", isEditable: true, canEditing: true)
                 mode = .add
             case Mode.show.identifier:
                 guard let row = tableView.indexPathForSelectedRow?.row else { return }
                 let emoji = registrations[row]
-                fillDetailController(addRegistrationDetailViewController, registration: emoji, title: nil, isEditable: false)
+                let indexPath = tableView.indexPath(for: sender as! UITableViewCell)!
+                let canEditing = registrations[indexPath.row].checkInDate.timeIntervalSince1970 > Date().timeIntervalSince1970
+                fillDetailController(addRegistrationDetailViewController, registration: emoji, title: nil, isEditable: false, canEditing: canEditing)
                 mode = .show
             default: break
             }
@@ -149,7 +156,6 @@ extension GuestsTableViewController: RegistrationDetailViewControllerDelegate {
             registrations[editingIndexPath.row] = registration
             registrations.sort()
             tableView.reloadData()
-            //tableView.reloadRows(at: [editingIndexPath], with: .automatic)
 
         }
         
