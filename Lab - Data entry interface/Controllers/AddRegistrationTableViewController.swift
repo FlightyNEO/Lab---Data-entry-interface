@@ -43,6 +43,7 @@ class AddRegistrationTableViewController: UITableViewController {
     @IBOutlet weak var numberOfChildrenStepper: UIStepper!
     
     /* Wi-Fi */
+    @IBOutlet weak var wifiLabel: UILabel!
     @IBOutlet weak var wifiSwitch: UISwitch!
     
     /* Room */
@@ -120,8 +121,6 @@ class AddRegistrationTableViewController: UITableViewController {
     private var numberOfChildren: Int {
         return Int(numberOfChildrenStepper.value)
     }
-    
-    private var selectedIndexPath: IndexPath?
     
     // MARK: ... Properties
     var registration: Registration!
@@ -207,6 +206,21 @@ class AddRegistrationTableViewController: UITableViewController {
         numberOfChildrenLabel?.text = "\(Int(numberOfChildrenStepper.value))"
     }
     
+    func updateWiFiView(isOn: Bool) {
+        
+        func calculateWiFiPricae() -> Double {
+            let days = checkOutDatePicker.date.days(from: checkInDatePicker.date)
+            return 0.3 * Double(days)
+        }
+        
+        if isOn {
+            let price = calculateWiFiPricae()
+            wifiLabel.text = "Wi-Fi: \(price) $"
+        } else {
+            wifiLabel.text = "Wi-Fi"
+        }
+    }
+    
     private func setupUI() {
         
         // Set possibility of editing
@@ -268,6 +282,15 @@ class AddRegistrationTableViewController: UITableViewController {
         
         wifiSwitch.isEnabled = isEditable
         
+        if !isEditable {
+            
+            isCheckInDatePickerShown = false
+            isCheckOutDatePickerShown = false
+            
+            tableView.beginUpdates()
+            tableView.endUpdates()
+        }
+        
     }
     
 }
@@ -295,6 +318,7 @@ extension AddRegistrationTableViewController {
     
     @IBAction func datePickerValueChanged() {
         updateDateViews()
+        updateWiFiView(isOn: wifiSwitch.isOn)
     }
     
     @IBAction func stepperValueChanged() {
@@ -302,8 +326,9 @@ extension AddRegistrationTableViewController {
     }
     
     @IBAction func actionWiFiChange(_ sender: UISwitch) {
-        
+        updateWiFiView(isOn: sender.isOn)
     }
+    
 }
 
 // MARK: - Navigation

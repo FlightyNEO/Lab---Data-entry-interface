@@ -41,7 +41,7 @@ class GuestsTableViewController: UITableViewController {
     // MARK: ... Private methods
     private func fillDetailController(_ controller: AddRegistrationTableViewController, registration: Registration?, title: String?, isEditable: Bool) {
         controller.registration = registration
-        controller.title = title ?? registration?.owner.fuulName
+        controller.title = title
         controller.isEditable = isEditable
     }
 
@@ -105,7 +105,7 @@ extension GuestsTableViewController {
                 fillDetailController(addRegistrationDetailViewController, registration: emoji, title: "Edit", isEditable: true)
                 mode = .edit
             case Mode.add.identifier:
-                fillDetailController(addRegistrationDetailViewController, registration: nil, title: "Add", isEditable: true)
+                fillDetailController(addRegistrationDetailViewController, registration: nil, title: "Registration", isEditable: true)
                 mode = .add
             case Mode.show.identifier:
                 guard let row = tableView.indexPathForSelectedRow?.row else { return }

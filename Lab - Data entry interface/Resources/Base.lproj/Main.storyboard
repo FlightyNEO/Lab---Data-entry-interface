@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Guests Hotel Monzana-->
+        <!--Guests-->
         <scene sceneID="GBa-IG-U2k">
             <objects>
                 <tableViewController id="Zce-Eb-70C" customClass="GuestsTableViewController" customModule="Lab___Data_entry_interface" customModuleProvider="target" sceneMemberID="viewController">
@@ -35,7 +35,7 @@
                             <outlet property="delegate" destination="Zce-Eb-70C" id="NOE-ud-ZEi"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Guests Hotel Monzana" id="1wl-SZ-bY5">
+                    <navigationItem key="navigationItem" title="Guests" prompt="Hotel Monzana" id="1wl-SZ-bY5">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="npz-Yh-90L">
                             <connections>
                                 <segue destination="I0w-Vq-0FZ" kind="show" identifier="AddGuestIdentifier" id="s8K-sP-3Sb"/>
@@ -315,10 +315,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Wi-Fi" id="KTo-Zu-4ec">
+                            <tableViewSection headerTitle="Wi-Fi" footerTitle="1 day = 0.3 $" id="KTo-Zu-4ec">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="jNh-Gm-Wmk">
-                                        <rect key="frame" x="0.0" y="850.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="858" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jNh-Gm-Wmk" id="6Gi-ts-fiN">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -351,7 +351,7 @@
                             <tableViewSection headerTitle="Room" id="WPb-Cv-kgK">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="RoomCell" textLabel="Fye-gT-yfU" detailTextLabel="Rxa-4a-JSM" style="IBUITableViewCellStyleValue1" id="dTv-wv-TyA">
-                                        <rect key="frame" x="0.0" y="950.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="970" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dTv-wv-TyA" id="i2F-OK-cUz">
                                             <rect key="frame" x="0.0" y="0.0" width="376" height="43.5"/>
@@ -421,6 +421,7 @@
                         <outlet property="numberOfChildrenStepper" destination="VkI-Hf-X2G" id="7Mg-IJ-F7C"/>
                         <outlet property="roomCell" destination="dTv-wv-TyA" id="d6y-A3-Eue"/>
                         <outlet property="saveAndCancelButton" destination="eGW-gK-epo" id="b4F-m5-XuE"/>
+                        <outlet property="wifiLabel" destination="VJH-yW-lGF" id="jy7-64-mDn"/>
                         <outlet property="wifiSwitch" destination="cgM-at-7S1" id="t4w-Y9-Nav"/>
                     </connections>
                 </tableViewController>
