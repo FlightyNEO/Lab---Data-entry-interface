@@ -254,13 +254,16 @@ class AddRegistrationTableViewController: UITableViewController {
             let room = registration?.room,
             let days = checkOutDatePicker?.date.days(from: checkInDatePicker.date) else { return }
         let price = Double(room.price)
-        let sum = calculateSum(price, days: days)
+        let numberOfPerson = numberOfAdults + numberOfChildren
+        let counter = numberOfPerson / room.numberOfPerson
+        let multiply = counter + (numberOfPerson.isMultiple(of: room.numberOfPerson) ? 0 : 1)
+        let sum = calculateSum(price, days: days, multiply: multiply)
         guard let sumString = currencyFormatter.string(from: sum as NSNumber) else { return }
         roomCell?.textLabel?.text = "Room type: \(sumString)"
     }
     
-    private func calculateSum(_ price: Double, days: Int) -> Double {
-        return price * Double(days)
+    private func calculateSum(_ price: Double, days: Int, multiply: Int = 1) -> Double {
+        return price * Double(days) * Double(multiply)
     }
     
     private func setupUI() {
@@ -371,6 +374,7 @@ extension AddRegistrationTableViewController {
     
     @IBAction func stepperValueChanged() {
         updateNumberOfGuests()
+        updateRoomView()
     }
     
     @IBAction func actionWiFiChange(_ sender: UISwitch) {
