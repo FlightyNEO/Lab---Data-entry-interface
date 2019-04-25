@@ -241,7 +241,10 @@ class AddRegistrationTableViewController: UITableViewController {
         
         if isOn {
             let days = checkOutDatePicker.date.days(from: checkInDatePicker.date)
-            let sum = calculateSum(0.3, days: days)
+            let numberOfPerson = numberOfAdults + numberOfChildren
+            let counter = numberOfPerson / Int(registration?.room?.numberOfPerson ?? numberOfPerson)
+            let multiply = counter + (numberOfPerson.isMultiple(of: registration?.room?.numberOfPerson ?? 1) ? 0 : 1)
+            let sum = calculateSum(0.3, days: days, multiply: multiply)
             guard let sumString = currencyFormatter.string(from: sum as NSNumber) else { return }
             wifiLabel?.text = "Wi-Fi: \(sumString)"
         } else {
@@ -374,6 +377,7 @@ extension AddRegistrationTableViewController {
     
     @IBAction func stepperValueChanged() {
         updateNumberOfGuests()
+        updateWiFiView(isOn: wifiSwitch.isOn)
         updateRoomView()
     }
     
@@ -484,7 +488,8 @@ extension AddRegistrationTableViewController: RoomsTableViewControllerDelegate {
         roomCell.detailTextLabel?.text = room.shortName
         roomCell.accessoryType = .checkmark
         
-        updateRoomView()
+        updateRoomView()                        // Update for recalculation total price for rooms
+        updateWiFiView(isOn: wifiSwitch.isOn)   // Update for recalculation total price for WiFi
         
         checkReadyToSave()
     }

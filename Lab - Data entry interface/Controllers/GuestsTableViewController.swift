@@ -60,7 +60,7 @@ class GuestsTableViewController: UITableViewController {
         let toDate = dateFormatter.string(from: registration.checkOutDate)
         let dates = fromDate + " - " + toDate
         
-        cell.textLabel?.text = registration.owner.fuulName
+        cell.textLabel?.text = registration.owner.fulName
         cell.detailTextLabel?.text = dates
         
     }

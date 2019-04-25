@@ -24,7 +24,7 @@ struct Person {
 
 extension Person {
     
-    var fuulName: String {
+    var fulName: String {
         return firstName + " " + lastName
     }
     
