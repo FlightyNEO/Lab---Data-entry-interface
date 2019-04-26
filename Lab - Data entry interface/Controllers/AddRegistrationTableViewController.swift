@@ -119,7 +119,7 @@ class AddRegistrationTableViewController: UITableViewController {
     }
     
     /// Return true if all fields is correct filling
-    private var areFieldsReady: Bool {
+    private var isCompletedForms: Bool {
         
         guard !textFields.isEmpty else { return false }
         
@@ -196,8 +196,8 @@ class AddRegistrationTableViewController: UITableViewController {
     
     /// Validation of the entered data
     private func checkReadyToSave() {
-        saveAndCancelButton?.isEnabled = areFieldsReady
-        mode = .edit(readyToSave: areFieldsReady)
+        saveAndCancelButton?.isEnabled = isCompletedForms
+        mode = .edit(readyToSave: isCompletedForms)
     }
     
     private func saveRegistration() {
@@ -242,8 +242,8 @@ class AddRegistrationTableViewController: UITableViewController {
         if isOn {
             let days = checkOutDatePicker.date.days(from: checkInDatePicker.date)
             let numberOfPerson = numberOfAdults + numberOfChildren
-            let counter = numberOfPerson / Int(registration?.room?.numberOfPerson ?? numberOfPerson)
-            let multiply = counter + (numberOfPerson.isMultiple(of: registration?.room?.numberOfPerson ?? 1) ? 0 : 1)
+            let counter = numberOfPerson / Int(registration?.room?.numberOfPlaces ?? numberOfPerson)
+            let multiply = counter + (numberOfPerson.isMultiple(of: registration?.room?.numberOfPlaces ?? 1) ? 0 : 1)
             let sum = calculateSum(0.3, days: days, multiply: multiply)
             guard let sumString = currencyFormatter.string(from: sum as NSNumber) else { return }
             wifiLabel?.text = "Wi-Fi: \(sumString)"
@@ -258,8 +258,8 @@ class AddRegistrationTableViewController: UITableViewController {
             let days = checkOutDatePicker?.date.days(from: checkInDatePicker.date) else { return }
         let price = Double(room.price)
         let numberOfPerson = numberOfAdults + numberOfChildren
-        let counter = numberOfPerson / room.numberOfPerson
-        let multiply = counter + (numberOfPerson.isMultiple(of: room.numberOfPerson) ? 0 : 1)
+        let counter = numberOfPerson / room.numberOfPlaces
+        let multiply = counter + (numberOfPerson.isMultiple(of: room.numberOfPlaces) ? 0 : 1)
         let sum = calculateSum(price, days: days, multiply: multiply)
         guard let sumString = currencyFormatter.string(from: sum as NSNumber) else { return }
         roomCell?.textLabel?.text = "Room type: \(sumString)"
@@ -325,7 +325,7 @@ class AddRegistrationTableViewController: UITableViewController {
         updateRoomView()
         
         // Update possibility of editing
-        saveAndCancelButton?.isEnabled = areFieldsReady
+        saveAndCancelButton?.isEnabled = isCompletedForms
         textFields.forEach { $0.isEnabled = isEditable }
         
         tableView.allowsSelection = isEditable

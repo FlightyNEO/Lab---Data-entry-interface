@@ -42,22 +42,25 @@ class RoomsTableViewController: UITableViewController {
         super.viewDidLoad()
     }
     
+    private func configureCell(_ cell: RoomTypeTableViewCell, with room: RoomType) {
+        cell.nameLabel.text = room.name
+        
+        cell.priceLabel.text = currencyFormatter.string(from: room.price as NSNumber)
+        cell.numberOfPlacesLabel.text = String(room.numberOfPlaces)
+        //cell.detailTextLabel?.text = String(rooms[indexPath.row].price)
+        
+        cell.accessoryType = room.id == idRoom ? .checkmark : .none
+    }
+    
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rooms.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "RoomCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RoomCell", for: indexPath) as! RoomTypeTableViewCell
         let room = rooms[indexPath.row]
-        
-        cell.textLabel?.text = rooms[indexPath.row].name
-        
-        cell.detailTextLabel?.text = currencyFormatter.string(from: rooms[indexPath.row].price as NSNumber)
-        
-        //cell.detailTextLabel?.text = String(rooms[indexPath.row].price)
-        
-        cell.accessoryType = room.id == idRoom ? .checkmark : .none
+        configureCell(cell, with: room)
         
         return cell
     }

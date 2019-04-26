@@ -25,6 +25,7 @@
 		582D45A52270BE56002F14CF /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D45A42270BE56002F14CF /* Date+Extension.swift */; };
 		582D45A722710439002F14CF /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D45A622710439002F14CF /* Currency.swift */; };
 		582D45A922710AE8002F14CF /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582D45A822710AE8002F14CF /* UIViewController+Extension.swift */; };
+		58F50AB22273158700027A9E /* RoomTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F50AB12273158700027A9E /* RoomTypeTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		582D45A42270BE56002F14CF /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		582D45A622710439002F14CF /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		582D45A822710AE8002F14CF /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		58F50AB12273158700027A9E /* RoomTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomTypeTableViewCell.swift; sourceTree = "<group>"; };
 		95ECDC32C8438158577ABE06 /* Pods-Lab - Data entry interface.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lab - Data entry interface.debug.xcconfig"; path = "Target Support Files/Pods-Lab - Data entry interface/Pods-Lab - Data entry interface.debug.xcconfig"; sourceTree = "<group>"; };
 		BD4FC0E1B071FFAAF45F87BD /* Pods-Lab - Data entry interface.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lab - Data entry interface.release.xcconfig"; path = "Target Support Files/Pods-Lab - Data entry interface/Pods-Lab - Data entry interface.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				582D4578226F3BEA002F14CF /* AppDelegate.swift */,
+				58F50AB322731C2D00027A9E /* Views */,
 				582D4596226F6BA2002F14CF /* Controllers */,
 				582D4597226F6BB1002F14CF /* Resources */,
 				582D4584226F3BEE002F14CF /* Info.plist */,
@@ -145,6 +148,14 @@
 				582D45A822710AE8002F14CF /* UIViewController+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		58F50AB322731C2D00027A9E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				58F50AB12273158700027A9E /* RoomTypeTableViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		FC2A2F3335AAF959530177D0 /* Pods */ = {
@@ -265,6 +276,7 @@
 				582D45A722710439002F14CF /* Currency.swift in Sources */,
 				582D459D227081BB002F14CF /* Room.swift in Sources */,
 				582D4593226F547E002F14CF /* UITextField+Extension.swift in Sources */,
+				58F50AB22273158700027A9E /* RoomTypeTableViewCell.swift in Sources */,
 				582D458D226F4332002F14CF /* Person.swift in Sources */,
 				582D4579226F3BEA002F14CF /* AppDelegate.swift in Sources */,
 			);
