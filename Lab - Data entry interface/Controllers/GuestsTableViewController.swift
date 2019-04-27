@@ -55,14 +55,41 @@ class GuestsTableViewController: UITableViewController {
     }
     
     private func configureCell(_ cell: UITableViewCell, registration: Registration) {
-        
-        let fromDate = dateFormatter.string(from: registration.checkInDate)
-        let toDate = dateFormatter.string(from: registration.checkOutDate)
-        let dates = fromDate + " - " + toDate
+        let attributedText = createAttributedDatesString(fromDate: registration.checkInDate, toDate: registration.checkOutDate)
+//        let fromDateString = dateFormatter.string(from: registration.checkInDate)
+//        let toDateString = dateFormatter.string(from: registration.checkOutDate)
+//        let datesString = fromDateString + " - " + toDateString
+//        let range = (datesString as NSString).range(of: fromDateString)
+//        let attributedText = NSMutableAttributedString(string: datesString)
+//        attributedText.addAttribute(.foregroundColor, value: UIColor.red, range: range)
         
         cell.textLabel?.text = registration.owner.fulName
-        cell.detailTextLabel?.text = dates
+        cell.detailTextLabel?.attributedText = attributedText
         
+    }
+    
+    private func createAttributedDatesString(fromDate: Date, toDate: Date) -> NSMutableAttributedString {
+        
+        let fromDateString = dateFormatter.string(from: fromDate)
+        let toDateString = dateFormatter.string(from: toDate)
+        let datesString = fromDateString + " - " + toDateString
+        
+        if fromDate.timeIntervalSince1970 <= Date().timeIntervalSince1970 {
+            var range: NSRange
+            
+            if toDate.timeIntervalSince1970 <= Date().timeIntervalSince1970 {
+                range = (datesString as NSString).range(of: datesString)
+            } else {
+                range = (datesString as NSString).range(of: fromDateString)
+            }
+            
+            let attributedText = NSMutableAttributedString(string: datesString)
+            attributedText.addAttribute(.foregroundColor, value: UIColor.red, range: range)
+            
+            return attributedText
+        }
+        
+        return NSMutableAttributedString(string: datesString)
     }
 
 }

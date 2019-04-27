@@ -220,58 +220,11 @@ class AddRegistrationTableViewController: UITableViewController {
         delegate?.didUpdateRegistration(registration)
     }
     
-    private func setupDateViews() {
-        let midnightToday = Calendar.current.startOfDay(for: Date())
-        checkInDatePicker.minimumDate = midnightToday
-        checkInDatePicker.date = midnightToday
-    }
-    
-    private func updateDateViews() {
-        checkOutDatePicker?.minimumDate = checkInDatePicker.date.addingTimeInterval(60 * 60 * 24)
-        checkInDateLabel?.text = dateFormatter.string(from: checkInDatePicker.date)
-        checkOutDateLabel?.text = dateFormatter.string(from: checkOutDatePicker.date)
-    }
-    
-    private func updateNumberOfGuests() {
-        numberOfAdultsLabel?.text = "\(Int(numberOfAdultsStepper.value))"
-        numberOfChildrenLabel?.text = "\(Int(numberOfChildrenStepper.value))"
-    }
-    
-    private func updateWiFiView(isOn: Bool) {
-        
-        if isOn {
-            let days = checkOutDatePicker.date.days(from: checkInDatePicker.date)
-            let numberOfPerson = numberOfAdults + numberOfChildren
-            let counter = numberOfPerson / Int(registration?.room?.numberOfPlaces ?? numberOfPerson)
-            let multiply = counter + (numberOfPerson.isMultiple(of: registration?.room?.numberOfPlaces ?? 1) ? 0 : 1)
-            let sum = calculateSum(0.3, days: days, multiply: multiply)
-            guard let sumString = currencyFormatter.string(from: sum as NSNumber) else { return }
-            wifiLabel?.text = "Wi-Fi: \(sumString)"
-        } else {
-            wifiLabel?.text = "Wi-Fi"
-        }
-    }
-    
-    private func updateRoomView() {
-        guard
-            let room = registration?.room,
-            let days = checkOutDatePicker?.date.days(from: checkInDatePicker.date) else { return }
-        let price = Double(room.price)
-        let numberOfPerson = numberOfAdults + numberOfChildren
-        let counter = numberOfPerson / room.numberOfPlaces
-        let multiply = counter + (numberOfPerson.isMultiple(of: room.numberOfPlaces) ? 0 : 1)
-        let sum = calculateSum(price, days: days, multiply: multiply)
-        guard let sumString = currencyFormatter.string(from: sum as NSNumber) else { return }
-        roomCell?.textLabel?.text = "Room type: \(sumString)"
-    }
-    
     private func calculateSum(_ price: Double, days: Int, multiply: Int = 1) -> Double {
         return price * Double(days) * Double(multiply)
     }
     
-    private func setupUI() {
-        
-        // Set possibility of editing
+    private func setPossibilityOfEditing() {
         if canEditing {
             navigationItem.rightBarButtonItems?.removeAll { $0 == (isEditable ? editButton : saveAndCancelButton) }
         } else {
@@ -284,6 +237,36 @@ class AddRegistrationTableViewController: UITableViewController {
             cancelAndBackButton = nil
             saveAndCancelButton = nil
         }
+    }
+    
+    private func updatePossibilityOfEditing() {
+        navigationItem.leftBarButtonItem = isEditable ? (cancelAndBackButton ?? cancelButton) : nil
+        
+        saveAndCancelButton?.isEnabled = isCompletedForms
+        textFields.forEach { $0.isEnabled = isEditable }
+        
+        tableView.allowsSelection = isEditable
+        
+        numberOfAdultsStepper.isEnabled = isEditable
+        numberOfChildrenStepper.isEnabled = isEditable
+        
+        wifiSwitch.isEnabled = isEditable
+        
+        if !isEditable {
+            
+            isCheckInDatePickerShown = false
+            isCheckOutDatePickerShown = false
+            
+            tableView.beginUpdates()
+            tableView.endUpdates()
+        }
+    }
+    
+    // MARK: ... Setup UI
+    private func setupUI() {
+        
+        // Set possibility of editing
+        setPossibilityOfEditing()
         
         clearsSelectionOnViewWillAppear = true
         
@@ -291,10 +274,28 @@ class AddRegistrationTableViewController: UITableViewController {
         updateUI()
     }
     
+    private func setupDateViews() {
+        let midnightToday = Calendar.current.startOfDay(for: Date())
+        checkInDatePicker.minimumDate = midnightToday
+        checkInDatePicker.date = midnightToday
+    }
+    
+    // MARK: ... Update UI
     private func updateUI() {
         
-        navigationItem.leftBarButtonItem = isEditable ? (cancelAndBackButton ?? cancelButton) : nil
+        fillingForms()
         
+        updateDateViews()
+        updateNumberOfGuests()
+        updateWiFiView(isOn: wifiSwitch?.isOn ?? false)
+        updateRoomView()
+        
+        // Update possibility of editing
+        updatePossibilityOfEditing()
+        
+    }
+    
+    private func fillingForms() {
         if let registration = registration {
             
             /* Filling info */
@@ -318,32 +319,50 @@ class AddRegistrationTableViewController: UITableViewController {
             roomCell?.accessoryType = .checkmark
             
         }
+    }
+    
+    private func updateRoomView() {
+        guard
+            let room = registration?.room,
+            let days = checkOutDatePicker?.date.days(from: checkInDatePicker.date) else { return }
+        let price = Double(room.price)
+        let numberOfPerson = numberOfAdults + numberOfChildren
+        let counter = numberOfPerson / room.numberOfPlaces
+        let multiply = counter + (numberOfPerson.isMultiple(of: room.numberOfPlaces) ? 0 : 1)
+        let sum = calculateSum(price, days: days, multiply: multiply)
+        guard let sumString = currencyFormatter.string(from: sum as NSNumber) else { return }
+        roomCell?.textLabel?.text = "Room type: \(sumString)"
+    }
+    
+    private func updateDateViews() {
+        // Check in date
+        checkOutDatePicker?.minimumDate = checkInDatePicker.date.addingTimeInterval(60 * 60 * 24)
+        checkOutDateLabel?.text = dateFormatter.string(from: checkOutDatePicker.date)
+        checkOutDateLabel?.textColor = checkOutDatePicker.date.timeIntervalSince1970 <= Date().timeIntervalSince1970 ? .red : .darkGray
         
-        updateDateViews()
-        updateNumberOfGuests()
-        updateWiFiView(isOn: wifiSwitch?.isOn ?? false)
-        updateRoomView()
+        // Check out date
+        checkInDateLabel?.text = dateFormatter.string(from: checkInDatePicker.date)
+        checkInDateLabel?.textColor = checkInDatePicker.date.timeIntervalSince1970 <= Date().timeIntervalSince1970 ? .red : .darkGray
+    }
+    
+    private func updateNumberOfGuests() {
+        numberOfAdultsLabel?.text = "\(Int(numberOfAdultsStepper.value))"
+        numberOfChildrenLabel?.text = "\(Int(numberOfChildrenStepper.value))"
+    }
+    
+    private func updateWiFiView(isOn: Bool) {
         
-        // Update possibility of editing
-        saveAndCancelButton?.isEnabled = isCompletedForms
-        textFields.forEach { $0.isEnabled = isEditable }
-        
-        tableView.allowsSelection = isEditable
-        
-        numberOfAdultsStepper.isEnabled = isEditable
-        numberOfChildrenStepper.isEnabled = isEditable
-        
-        wifiSwitch.isEnabled = isEditable
-        
-        if !isEditable {
-            
-            isCheckInDatePickerShown = false
-            isCheckOutDatePickerShown = false
-            
-            tableView.beginUpdates()
-            tableView.endUpdates()
+        if isOn {
+            let days = checkOutDatePicker.date.days(from: checkInDatePicker.date)
+            let numberOfPerson = numberOfAdults + numberOfChildren
+            let counter = numberOfPerson / Int(registration?.room?.numberOfPlaces ?? numberOfPerson)
+            let multiply = counter + (numberOfPerson.isMultiple(of: registration?.room?.numberOfPlaces ?? 1) ? 0 : 1)
+            let sum = calculateSum(0.3, days: days, multiply: multiply)
+            guard let sumString = currencyFormatter.string(from: sum as NSNumber) else { return }
+            wifiLabel?.text = "Wi-Fi: \(sumString)"
+        } else {
+            wifiLabel?.text = "Wi-Fi"
         }
-        
     }
     
 }
