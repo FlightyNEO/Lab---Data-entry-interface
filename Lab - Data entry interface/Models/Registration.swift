@@ -53,3 +53,32 @@ extension Registration: Comparable {
     }
     
 }
+
+extension Registration {
+    
+    init(firstName: String, lastName: String, checkInDate: Date, checkOutDate: Date) {
+        self.init()
+        self.owner.firstName = firstName
+        self.owner.lastName = lastName
+        self.checkInDate = checkInDate
+        self.checkOutDate = checkOutDate
+        self.room = RoomType(id: 0, name: "Two Queens", shortName: "2Q", price: 179, numberOfPlaces: 2)
+    }
+    
+    static func sampleLoad() -> [Registration] {
+        
+        return [
+            Registration(firstName: "Аркадий", lastName: "Григорьянц", checkInDate: Date(), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 3)),
+            Registration(firstName: "Ян", lastName: "Карлов", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 3), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 3)),
+            Registration(firstName: "Дмитрий", lastName: "Козлов", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 3), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 6)),
+            Registration(firstName: "Сергей", lastName: "Бойко", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 2), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 6)),
+            Registration(firstName: "Иван", lastName: "Акулов", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 35), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 39)),
+            Registration(firstName: "Илья", lastName: "Лансков", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 37), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 44)),
+            Registration(firstName: "Алена", lastName: "Водонаева", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 75), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 79)),
+            Registration(firstName: "Ирина", lastName: "Светлова", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 101), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 141)),
+            Registration(firstName: "Юлия", lastName: "Денисова", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 356), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 367)),
+        ].sorted()
+        
+    }
+    
+}

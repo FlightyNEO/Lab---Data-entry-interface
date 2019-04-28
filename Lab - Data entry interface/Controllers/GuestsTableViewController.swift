@@ -13,7 +13,8 @@ class GuestsTableViewController: UITableViewController {
     // MARK: ... Private properties
     private let cellID = "RegistrationCell"
     
-    private var registrations = [Registration]()
+    private var rows = [[Registration]]()
+    private var sections = [Date]()
     
     private var editingIndexPath: IndexPath?
     private var mode: Mode?
@@ -38,11 +39,26 @@ class GuestsTableViewController: UITableViewController {
         return formatter
     }()
     
+    private lazy var sectionDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.dateFormat = "MMMM YYYY"
+        
+        return formatter
+    }()
+    
+    // MARK: ... Calculated properties
+    private var registrations: [Registration] {
+        return rows.flatMap { $0 }
+    }
+    
     // MARK: ... Life cicle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.leftBarButtonItem = self.editButtonItem
+        
+        updateSections(with: Registration.sampleLoad())
         
     }
     
@@ -56,12 +72,6 @@ class GuestsTableViewController: UITableViewController {
     
     private func configureCell(_ cell: UITableViewCell, registration: Registration) {
         let attributedText = createAttributedDatesString(fromDate: registration.checkInDate, toDate: registration.checkOutDate)
-//        let fromDateString = dateFormatter.string(from: registration.checkInDate)
-//        let toDateString = dateFormatter.string(from: registration.checkOutDate)
-//        let datesString = fromDateString + " - " + toDateString
-//        let range = (datesString as NSString).range(of: fromDateString)
-//        let attributedText = NSMutableAttributedString(string: datesString)
-//        attributedText.addAttribute(.foregroundColor, value: UIColor.red, range: range)
         
         cell.textLabel?.text = registration.owner.fulName
         cell.detailTextLabel?.attributedText = attributedText
@@ -91,18 +101,50 @@ class GuestsTableViewController: UITableViewController {
         
         return NSMutableAttributedString(string: datesString)
     }
+    
+    private func updateSections(with registrations: [Registration]) {
+        
+        var rows = [[Registration]]()
+        
+        let dates = registrations.reduce(into: [Date]()) { (result, reg) in
+            guard let lastDate = result.last else {
+                result.append(reg.checkInDate)
+                rows.append([reg])
+                return
+            }
+            
+            let componentsLastDate = Calendar.current.dateComponents([.month, .year], from: lastDate)
+            let componentsDate = Calendar.current.dateComponents([.month, .year], from: reg.checkInDate)
+            
+            if componentsDate.month != componentsLastDate.month {
+                result.append(reg.checkInDate)
+                rows.append([reg])
+            } else {
+                rows[rows.endIndex - 1].append(reg)
+            }
+            
+        }
+        
+        sections = dates
+        self.rows = rows
+        
+    }
 
 }
 
 // MARK: - Tble view data source & delegate
 extension GuestsTableViewController {
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return registrations.count
+        return rows[section].count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let registration = registrations[indexPath.row]
+        let registration = rows[indexPath.section][indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
         configureCell(cell, registration: registration)
@@ -110,18 +152,22 @@ extension GuestsTableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectionDateFormatter.string(from: sections[section])
+    }
+    
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let editAction = UITableViewRowAction(style: .normal, title: "Edit") { (_, indexPath) in
             self.editingIndexPath = indexPath
-            self.performSegue(withIdentifier: Mode.edit.identifier, sender: indexPath.row)
+            self.performSegue(withIdentifier: Mode.edit.identifier, sender: indexPath)
         }
         
         editAction.backgroundColor = .orange
         
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (_, _) in
             
-            self.registrations.remove(at: indexPath.row)
+            self.rows.remove(at: indexPath.row)
             
             tableView.deleteRows(at: [indexPath], with: .fade)
             
@@ -131,7 +177,7 @@ extension GuestsTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return registrations[indexPath.row].checkInDate.timeIntervalSince1970 > Date().timeIntervalSince1970
+        return rows[indexPath.section][indexPath.row].checkInDate.timeIntervalSince1970 > Date().timeIntervalSince1970
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -150,22 +196,44 @@ extension GuestsTableViewController {
             addRegistrationDetailViewController.delegate = self
             
             switch segue.identifier {
+                
             case Mode.edit.identifier:
-                guard let row = sender as? Int else { return }
-                let emoji = registrations[row]
-                fillDetailController(addRegistrationDetailViewController, registration: emoji, title: "Edit", isEditable: true, canEditing: true)
+                
+                guard let indexPath = sender as? IndexPath else { return }
+                let registration = rows[indexPath.section][indexPath.row]
+                fillDetailController(addRegistrationDetailViewController,
+                                     registration: registration,
+                                     title: "Edit",
+                                     isEditable: true,
+                                     canEditing: true)
                 mode = .edit
+                
             case Mode.add.identifier:
-                fillDetailController(addRegistrationDetailViewController, registration: nil, title: "Registration", isEditable: true, canEditing: true)
+                
+                fillDetailController(addRegistrationDetailViewController,
+                                     registration: nil,
+                                     title: "Registration",
+                                     isEditable: true,
+                                     canEditing: true)
                 mode = .add
+                
             case Mode.show.identifier:
-                guard let row = tableView.indexPathForSelectedRow?.row else { return }
-                let emoji = registrations[row]
+                
                 let indexPath = tableView.indexPath(for: sender as! UITableViewCell)!
-                let canEditing = registrations[indexPath.row].checkInDate.timeIntervalSince1970 > Date().timeIntervalSince1970
-                fillDetailController(addRegistrationDetailViewController, registration: emoji, title: nil, isEditable: false, canEditing: canEditing)
+                let registration = rows[indexPath.section][indexPath.row]
+                let canEditing = rows[indexPath.section][indexPath.row].checkInDate.timeIntervalSince1970 > Date().timeIntervalSince1970
+                
+                fillDetailController(addRegistrationDetailViewController,
+                                     registration: registration,
+                                     title: nil,
+                                     isEditable: false,
+                                     canEditing: canEditing)
                 mode = .show
-            default: break
+                
+            default:
+                
+                break
+                
             }
             
         }
@@ -188,19 +256,18 @@ extension GuestsTableViewController: RegistrationDetailViewControllerDelegate {
 
         switch mode {
             
+        case .edit, .show:
+            
+            guard let editingIndexPath = editingIndexPath else { return }
+            rows[editingIndexPath.section].remove(at: editingIndexPath.row)
+            fallthrough
+            
         case .add:
             
+            var registrations = self.registrations
             let indexOfRegistration = registrations.insertionIndexOf(registration, <)
-            let indexPath = IndexPath(row: indexOfRegistration, section: 0)
             registrations.insert(registration, at: indexOfRegistration)
-            tableView.insertRows(at: [indexPath], with: .automatic)
-            
-        case .edit, .show:
-
-            guard let editingIndexPath = editingIndexPath else { return }
-            
-            registrations[editingIndexPath.row] = registration
-            registrations.sort()
+            updateSections(with: registrations)
             tableView.reloadData()
 
         }
