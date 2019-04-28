@@ -44,15 +44,16 @@ class RoomsTableViewController: UITableViewController {
     
     private func configureCell(_ cell: RoomTypeTableViewCell, with room: RoomType) {
         cell.nameLabel.text = room.name
-        
         cell.priceLabel.text = currencyFormatter.string(from: room.price as NSNumber)
         cell.numberOfPlacesLabel.text = String(room.numberOfPlaces)
-        //cell.detailTextLabel?.text = String(rooms[indexPath.row].price)
-        
         cell.accessoryType = room.id == idRoom ? .checkmark : .none
     }
     
-    // MARK: - Table view data source
+}
+
+// MARK: - Table view data source and delegate
+extension RoomsTableViewController {
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rooms.count
     }
@@ -78,17 +79,6 @@ class RoomsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Select room"
-    }
-    
-}
-
-// MARK: - Navigation
-extension RoomsTableViewController {
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        
-        
     }
     
 }

@@ -200,7 +200,7 @@ class AddRegistrationTableViewController: UITableViewController {
         mode = .edit(readyToSave: isCompletedForms)
     }
     
-    private func saveRegistration() {
+    private func updateRegistration() {
         /* Info */
         registration.owner.firstName = firstNameTextField.text ?? ""
         registration.owner.lastName = lastNameTextField.text ?? ""
@@ -216,12 +216,12 @@ class AddRegistrationTableViewController: UITableViewController {
         
         /* WiFi */
         registration.wifiEnable = wifiSwitch.isOn
-        
-        delegate?.didUpdateRegistration(registration)
     }
     
-    private func calculateSum(_ price: Double, days: Int, multiply: Int = 1) -> Double {
-        return price * Double(days) * Double(multiply)
+    private func saveRegistration() {
+        updateRegistration()
+        
+        delegate?.didUpdateRegistration(registration)
     }
     
     private func setPossibilityOfEditing() {
@@ -292,7 +292,6 @@ class AddRegistrationTableViewController: UITableViewController {
         
         // Update possibility of editing
         updatePossibilityOfEditing()
-        
     }
     
     private func fillingForms() {
@@ -321,19 +320,6 @@ class AddRegistrationTableViewController: UITableViewController {
         }
     }
     
-    private func updateRoomView() {
-        guard
-            let room = registration?.room,
-            let days = checkOutDatePicker?.date.days(from: checkInDatePicker.date) else { return }
-        let price = Double(room.price)
-        let numberOfPerson = numberOfAdults + numberOfChildren
-        let counter = numberOfPerson / room.numberOfPlaces
-        let multiply = counter + (numberOfPerson.isMultiple(of: room.numberOfPlaces) ? 0 : 1)
-        let sum = calculateSum(price, days: days, multiply: multiply)
-        guard let sumString = currencyFormatter.string(from: sum as NSNumber) else { return }
-        roomCell?.textLabel?.text = "Room type: \(sumString)"
-    }
-    
     private func updateDateViews() {
         // Check in date
         checkOutDatePicker?.minimumDate = checkInDatePicker.date.addingTimeInterval(60 * 60 * 24)
@@ -353,16 +339,18 @@ class AddRegistrationTableViewController: UITableViewController {
     private func updateWiFiView(isOn: Bool) {
         
         if isOn {
-            let days = checkOutDatePicker.date.days(from: checkInDatePicker.date)
-            let numberOfPerson = numberOfAdults + numberOfChildren
-            let counter = numberOfPerson / Int(registration?.room?.numberOfPlaces ?? numberOfPerson)
-            let multiply = counter + (numberOfPerson.isMultiple(of: registration?.room?.numberOfPlaces ?? 1) ? 0 : 1)
-            let sum = calculateSum(0.3, days: days, multiply: multiply)
-            guard let sumString = currencyFormatter.string(from: sum as NSNumber) else { return }
+            let price = registration.wifiTotalPrice(0.3)
+            guard let sumString = currencyFormatter.string(from: price as NSNumber) else { return }
             wifiLabel?.text = "Wi-Fi: \(sumString)"
         } else {
             wifiLabel?.text = "Wi-Fi"
         }
+    }
+    
+    private func updateRoomView() {
+        guard let price = registration?.roomTotalPrice else { return }
+        guard let sumString = currencyFormatter.string(from: price as NSNumber) else { return }
+        roomCell?.textLabel?.text = "Room type: \(sumString)"
     }
     
 }
@@ -389,18 +377,30 @@ extension AddRegistrationTableViewController {
     }
     
     @IBAction func datePickerValueChanged() {
+        // Update model
+        updateRegistration()
+        
+        // Update UI
         updateDateViews()
         updateWiFiView(isOn: wifiSwitch.isOn)
         updateRoomView()
     }
     
     @IBAction func stepperValueChanged() {
+        // Update model
+        updateRegistration()
+        
+        // Update UI
         updateNumberOfGuests()
         updateWiFiView(isOn: wifiSwitch.isOn)
         updateRoomView()
     }
     
     @IBAction func actionWiFiChange(_ sender: UISwitch) {
+        // Update model
+        updateRegistration()
+        
+        // Update UI
         updateWiFiView(isOn: sender.isOn)
     }
     

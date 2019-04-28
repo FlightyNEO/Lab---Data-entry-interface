@@ -35,6 +35,42 @@ struct Registration {
     
 }
 
+// MARK: - Calcilate properties
+extension Registration {
+    
+    private func calculateSum(_ price: Double, days: Int, multiply: Int = 1) -> Double {
+        return price * Double(days) * Double(multiply)
+    }
+    
+    var numberOfPerson: Int {
+        return numberOfAdults + numberOfChildren
+    }
+    
+    var numberOfDays: Int {
+        return checkOutDate.days(from: checkInDate)
+    }
+    
+    var roomTotalPrice: Double? {
+        
+        guard let room = room else { return nil }
+            
+        let price = Double(room.price)
+        let counter = numberOfPerson / room.numberOfPlaces
+        let multiply = counter + (numberOfPerson.isMultiple(of: room.numberOfPlaces) ? 0 : 1)
+        return calculateSum(price, days: numberOfDays, multiply: multiply)
+    }
+    
+    func wifiTotalPrice(_ price: Double) -> Double {
+        
+        let counter = numberOfPerson / Int(room?.numberOfPlaces ?? numberOfPerson)
+        let multiply = counter + (numberOfPerson.isMultiple(of: room?.numberOfPlaces ?? 1) ? 0 : 1)
+        
+        return calculateSum(price, days: numberOfDays, multiply: multiply)
+    }
+    
+}
+
+// MARK: - Comparable
 extension Registration: Comparable {
     
     static func == (lhs: Registration, rhs: Registration) -> Bool {
@@ -54,12 +90,14 @@ extension Registration: Comparable {
     
 }
 
+// MARK: - Sample load
 extension Registration {
     
     init(firstName: String, lastName: String, checkInDate: Date, checkOutDate: Date) {
         self.init()
         self.owner.firstName = firstName
         self.owner.lastName = lastName
+        self.owner.eMail = "test@test.com"
         self.checkInDate = checkInDate
         self.checkOutDate = checkOutDate
         self.room = RoomType(id: 0, name: "Two Queens", shortName: "2Q", price: 179, numberOfPlaces: 2)
@@ -69,7 +107,7 @@ extension Registration {
         
         return [
             Registration(firstName: "Аркадий", lastName: "Григорьянц", checkInDate: Date(), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 3)),
-            Registration(firstName: "Ян", lastName: "Карлов", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 3), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 3)),
+            Registration(firstName: "Ян", lastName: "Карлов", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 3), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 4)),
             Registration(firstName: "Дмитрий", lastName: "Козлов", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 3), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 6)),
             Registration(firstName: "Сергей", lastName: "Бойко", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 2), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 6)),
             Registration(firstName: "Иван", lastName: "Акулов", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 35), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 39)),
