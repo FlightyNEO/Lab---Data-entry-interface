@@ -107,6 +107,8 @@ class AddRegistrationTableViewController: UITableViewController {
         }
     }
     
+    private var modifiedRegistration: Registration!
+    
     // MARK: ... Calculated properties
     /// Return all text fields
     private var textFields: [UITextField] {
@@ -129,7 +131,7 @@ class AddRegistrationTableViewController: UITableViewController {
         
         guard
             Validator.isEmail().apply(eMailTextField.text),
-            registration.room != nil else { return false }
+            modifiedRegistration.room != nil else { return false }
         
         return true
     }
@@ -176,6 +178,9 @@ class AddRegistrationTableViewController: UITableViewController {
             registration = Registration()
         }
         
+        modifiedRegistration = registration
+        updateUI()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -202,26 +207,26 @@ class AddRegistrationTableViewController: UITableViewController {
     
     private func updateRegistration() {
         /* Info */
-        registration.owner.firstName = firstNameTextField.text ?? ""
-        registration.owner.lastName = lastNameTextField.text ?? ""
-        registration.owner.eMail = eMailTextField.text ?? ""
+        modifiedRegistration.owner.firstName = firstNameTextField.text ?? ""
+        modifiedRegistration.owner.lastName = lastNameTextField.text ?? ""
+        modifiedRegistration.owner.eMail = eMailTextField.text ?? ""
         
         /* Dates */
-        registration.checkInDate = checkInDatePicker.date
-        registration.checkOutDate = checkOutDatePicker.date
+        modifiedRegistration.checkInDate = checkInDatePicker.date
+        modifiedRegistration.checkOutDate = checkOutDatePicker.date
         
         /* Guests count */
-        registration.numberOfAdults = numberOfAdults
-        registration.numberOfChildren = numberOfChildren
+        modifiedRegistration.numberOfAdults = numberOfAdults
+        modifiedRegistration.numberOfChildren = numberOfChildren
         
         /* WiFi */
-        registration.wifiEnable = wifiSwitch.isOn
+        modifiedRegistration.wifiEnable = wifiSwitch.isOn
     }
     
     private func saveRegistration() {
+        registration = modifiedRegistration
         updateRegistration()
-        
-        delegate?.didUpdateRegistration(registration)
+        delegate?.didUpdateRegistration(modifiedRegistration)
     }
     
     private func setPossibilityOfEditing() {
@@ -271,7 +276,7 @@ class AddRegistrationTableViewController: UITableViewController {
         clearsSelectionOnViewWillAppear = true
         
         setupDateViews()
-        updateUI()
+        //updateUI()
     }
     
     private func setupDateViews() {
@@ -339,7 +344,7 @@ class AddRegistrationTableViewController: UITableViewController {
     private func updateWiFiView(isOn: Bool) {
         
         if isOn {
-            let price = registration.wifiTotalPrice(0.3)
+            let price = modifiedRegistration.wifiTotalPrice(0.3)
             guard let sumString = currencyFormatter.string(from: price as NSNumber) else { return }
             wifiLabel?.text = "Wi-Fi: \(sumString)"
         } else {
@@ -348,7 +353,7 @@ class AddRegistrationTableViewController: UITableViewController {
     }
     
     private func updateRoomView() {
-        guard let price = registration?.roomTotalPrice else { return }
+        guard let price = modifiedRegistration?.roomTotalPrice else { return }
         guard let sumString = currencyFormatter.string(from: price as NSNumber) else { return }
         roomCell?.textLabel?.text = "Room type: \(sumString)"
     }
@@ -359,6 +364,7 @@ class AddRegistrationTableViewController: UITableViewController {
 extension AddRegistrationTableViewController {
     
     @objc private func actionCancel() {
+        modifiedRegistration = registration
         isEditable.toggle()
     }
     
@@ -370,7 +376,7 @@ extension AddRegistrationTableViewController {
             firstNameTextField.becomeFirstResponder()
         case .edit:
             saveRegistration()
-            title = firstNameTextField.text
+            //title = firstNameTextField.text
             isEditable.toggle()
         }
         
@@ -416,7 +422,7 @@ extension AddRegistrationTableViewController {
         case "ShowRoomIdentifier":
             let roomsTableViewController = segue.destination as! RoomsTableViewController
             roomsTableViewController.delegate = self
-            roomsTableViewController.idRoom = registration.room?.id ?? 0
+            roomsTableViewController.idRoom = modifiedRegistration.room?.id ?? 0
             
         case "SaveSegue":
             saveRegistration()
@@ -502,7 +508,7 @@ extension AddRegistrationTableViewController {
 // MARK: - RoomsTableViewControllerDelegate
 extension AddRegistrationTableViewController: RoomsTableViewControllerDelegate {
     func didChangeRoom(_ room: RoomType) {
-        registration.room = room
+        modifiedRegistration.room = room
         
         roomCell.detailTextLabel?.text = room.shortName
         roomCell.accessoryType = .checkmark
