@@ -107,6 +107,9 @@ extension Registration {
         
         return [
             Registration(firstName: "Аркадий", lastName: "Григорьянц", checkInDate: Date(), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 3)),
+            Registration(firstName: "Михаил", lastName: "Смирнов", checkInDate: Date().addingTimeInterval(-60 * 60 * 24 * 12), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 3)),
+            Registration(firstName: "Дарья", lastName: "Кортина", checkInDate: Date().addingTimeInterval(-60 * 60 * 24 * 7), checkOutDate: Date().addingTimeInterval(-60 * 60 * 24 * 2)),
+            Registration(firstName: "Альберт", lastName: "Эйнштейн", checkInDate: Date().addingTimeInterval(-60 * 60 * 24 * 32850), checkOutDate: Date().addingTimeInterval(-60 * 60 * 24 * 32840)),
             Registration(firstName: "Ян", lastName: "Карлов", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 3), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 4)),
             Registration(firstName: "Дмитрий", lastName: "Козлов", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 3), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 6)),
             Registration(firstName: "Сергей", lastName: "Бойко", checkInDate: Date().addingTimeInterval(60 * 60 * 24 * 2), checkOutDate: Date().addingTimeInterval(60 * 60 * 24 * 6)),
