@@ -176,6 +176,8 @@ class AddRegistrationTableViewController: UITableViewController {
         
         if registration == nil {
             registration = Registration()
+            registration.checkInDate = Date()
+            registration.checkOutDate = registration.checkInDate.addingTimeInterval(60 * 60 * 24)
         }
         
         modifiedRegistration = registration
@@ -353,7 +355,11 @@ class AddRegistrationTableViewController: UITableViewController {
     }
     
     private func updateRoomView() {
-        guard let price = modifiedRegistration?.roomTotalPrice else { return }
+        guard let price = modifiedRegistration?.roomTotalPrice else {
+            roomCell?.detailTextLabel?.text = "Select"
+            roomCell?.accessoryType = .disclosureIndicator
+            return
+        }
         guard let sumString = currencyFormatter.string(from: price as NSNumber) else { return }
         roomCell?.textLabel?.text = "Room type: \(sumString)"
     }
@@ -376,7 +382,6 @@ extension AddRegistrationTableViewController {
             firstNameTextField.becomeFirstResponder()
         case .edit:
             saveRegistration()
-            //title = firstNameTextField.text
             isEditable.toggle()
         }
         
@@ -458,7 +463,6 @@ extension AddRegistrationTableViewController: UITextFieldDelegate {
     
 }
 
-
 // MARK: - Table view delegate & data source
 extension AddRegistrationTableViewController {
     
@@ -483,6 +487,15 @@ extension AddRegistrationTableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         switch indexPath {
+            
+        case let index where index.section == 0:
+            
+            switch index.row {
+            case 0: firstNameTextField.becomeFirstResponder()
+            case 1: lastNameTextField.becomeFirstResponder()
+            case 2: eMailTextField.becomeFirstResponder()
+            default: break
+            }
             
         case checkInDatePickerCellIndexPath.prevRow:
             
