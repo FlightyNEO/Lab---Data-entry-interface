@@ -472,6 +472,8 @@ extension AddRegistrationTableViewController {
         
         switch indexPath {
             
+        case let indexPath where indexPath.section == 0: return 44
+            
         case checkInDatePickerCellIndexPath: return isCheckInDatePickerShown ? autoHeight : 0
             
         case checkOutDatePickerCellIndexPath: return isCheckOutDatePickerShown ? autoHeight : 0
